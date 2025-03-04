@@ -10,8 +10,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Concrete.EntityFramework
 {
-    public class EfOperationClaimDal : EfEntityRepositoryBase<OperationClaim, SimpleContextDb>, IOperationClaimDal 
+    public class EfUserOperationClaimDal : EfEntityRepositoryBase<UserOperationClaim, SimpleContextDb> , IUserOperationDal
     {
-      
     }
 }

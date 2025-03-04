@@ -12,7 +12,7 @@ namespace DataAccess.Concrete.EntityFramework.Context
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-           optionsBuilder.UseSqlServer("Server=DESKTOP-HEK9VG2;Database=DemoDb;Integrated Security=True;Trusted_Connection=True;");
+           optionsBuilder.UseSqlServer("Server=DESKTOP-HEK9VG2;Database=DemoDb;Integrated Security=True;Trusted_Connection=True;TrustServerCertificate=True;");
         }
         //Users => Users tablosundaki isim ile aynı olmak zorundadır.Yoksa Eşleştiremez
         public DbSet<User>? Users { get; set; }

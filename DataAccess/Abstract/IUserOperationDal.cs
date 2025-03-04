@@ -8,8 +8,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Abstract
 {
-    public interface IOperationClaimDal : IEntityRepository<OperationClaim>
+    public interface IUserOperationDal : IEntityRepository<UserOperationClaim>
     {
-        
     }
 }
