@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
+using Entities.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,11 +17,11 @@ namespace WebApi.Controllers
             _userService = userService;
         }
 
-        [HttpPost("add")]
-        public IActionResult Add(User user)
+        [HttpGet("getAll")]
+        public IActionResult GetList()
         {
-            _userService.Add(user);
-            return Ok("Kayıt İşlemi Başarıyla Tamamlandı!");
+           
+            return Ok(_userService.GetList());
         }
     }
 }
