@@ -19,8 +19,8 @@ namespace WebApi.Controllers
         [HttpPost("register")]
         public IActionResult Register(RegisterAuthDto authDto)
         {
-            _authService.Register(authDto);
-            return Ok("Kayıt işlemi başarıyla tamamlandı.");
+            var result = _authService.Register(authDto);
+            return Ok(result);
         }
 
         [HttpPost("login")]
