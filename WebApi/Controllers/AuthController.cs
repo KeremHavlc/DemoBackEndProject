@@ -19,8 +19,14 @@ namespace WebApi.Controllers
         [HttpPost("register")]
         public IActionResult Register(RegisterAuthDto authDto)
         {
+            //Result yapısı kuruluyor ve Success : True / False ; Message : string ifade dönmesini sağlayacağız.
+
             var result = _authService.Register(authDto);
+            if(result.Success)
+            {
             return Ok(result);
+            }
+            return BadRequest(result);
         }
 
         [HttpPost("login")]

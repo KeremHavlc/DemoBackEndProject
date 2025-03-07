@@ -1,6 +1,9 @@
 ﻿using Business.Abstract;
 using Business.ValidationRules.FluentValidation;
+using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Hashing;
+using Core.Utilities.Result.Abstract;
+using Core.Utilities.Result.Concrete;
 using Entities.Dtos;
 using FluentValidation.Results;
 
@@ -26,7 +29,7 @@ namespace Business.Concrete
             return "Kullanıcı bilgileri hatalı";
         }
 
-        public List<string> Register(RegisterAuthDto registerDto)
+        public IResult Register(RegisterAuthDto registerDto)
         {
             //FluentValidation paketi ile aşağıdaki karmaşayı engelleyebiliriz.
             //if (registerDto.Name == "")
@@ -40,20 +43,34 @@ namespace Business.Concrete
             //if (registerDto.Password.Length < 6)
             //    return "Şifre en az 6 karakter olmalıdır!";
 
+            //Cross Cutting Concerns - Uygulama Dikine Kesme 
+            //AOP
+
             UserValidator userValidator = new UserValidator();
-            ValidationResult validationresult = userValidator.Validate(registerDto);
+            ValidationTool.Valide(userValidator, registerDto);
 
-            List<string> results = new List<string>();
+            bool isExist = CheckIfEmailExists(registerDto.Email);
 
-            if (validationresult.IsValid)
+            if(isExist)
             {
                 _userService.Add(registerDto);
-                results.Add("Kullanıcı kaydı başarıyla tamamlandı");
-                return results;
+                return new Result(true, "Kullanıcı kaydı başarıyla tamamlandı"); ;
             }
-           
-            results = validationresult.Errors.Select(p => p.ErrorMessage).ToList();
-            return results;
+            else
+            {
+                return new Result(false, "Bu email adresi zaten kullanılmaktadır."); 
+            }
+            
+        }
+        bool CheckIfEmailExists(string email)
+        {
+            var list = _userService.GetByEmail(email);
+            if(list != null)
+            {
+                return false;
+            }
+            return true;
+
         }
     }
 }
